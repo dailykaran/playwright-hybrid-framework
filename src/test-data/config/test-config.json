@@ -1,0 +1,24 @@
+{
+  "environments": {
+    "dev": {
+      "baseUrl": "http://localhost:3000",
+      "apiBaseUrl": "http://localhost:8000/api"
+    },
+    "qa": {
+      "baseUrl": "https://qa.example.com",
+      "apiBaseUrl": "https://qa.example.com/api"
+    },
+    "prod": {
+      "baseUrl": "https://www.example.com",
+      "apiBaseUrl": "https://www.example.com/api"
+    }
+  },
+  "testSettings": {
+    "timeout": 60000,
+    "navigationTimeout": 30000,
+    "headless": true,
+    "slowMo": 0,
+    "retries": 2,
+    "parallel": 4
+  }
+}

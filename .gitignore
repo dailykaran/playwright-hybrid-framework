@@ -1,0 +1,12 @@
+node_modules/
+dist/
+reports/
+logs/
+.env
+.env.local
+.DS_Store
+*.log
+coverage/
+.vscode/settings.json
+config/playwright.config.ts
+.playwright-mcp/

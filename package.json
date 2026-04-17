@@ -1,0 +1,56 @@
+{
+  "name": "playwright-bdd-framework",
+  "version": "1.0.0",
+  "description": "A hybrid Playwright BDD automation framework with UI and API testing capabilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:ui": "cucumber-js --profile ui",
+    "test:api": "cucumber-js --profile api",
+    "test:all": "cucumber-js --profile all",
+    "test:headed": "HEADED=true cucumber-js --profile ui",
+    "test:debug": "PWDEBUG=1 cucumber-js --profile ui",
+    "test:smoke": "cucumber-js --tags @smoke",
+    "test:regression": "cucumber-js --tags @regression",
+    "reports:allure": "allure serve reports/allure-results",
+    "reports:clean": "rimraf reports/allure-results && rimraf reports/playwright",
+    "clean": "npm run reports:clean && rimraf logs",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.{ts,json,feature}\"",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "playwright",
+    "bdd",
+    "cucumber",
+    "automation",
+    "testing",
+    "hybrid",
+    "ui",
+    "api"
+  ],
+  "author": "QA Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.0",
+    "@faker-js/faker": "^8.4.0",
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "allure-commandline": "^2.25.0",
+    "allure-cucumberjs": "^2.7.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.0",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "dotenv": "^16.3.1",
+    "winston": "^3.11.0"
+  }
+}

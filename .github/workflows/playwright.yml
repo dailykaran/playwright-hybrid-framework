@@ -1,0 +1,105 @@
+name: Playwright Automation Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * *'  # Run daily at 2 AM UTC
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.x, 20.x]
+        browser: [chromium, firefox, webkit]
+        profile: [ui, api]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run tests - ${{ matrix.profile }}
+        env:
+          ENVIRONMENT: qa
+          BROWSER: ${{ matrix.browser }}
+        run: npm run test:${{ matrix.profile }}
+        continue-on-error: true
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          npm install -g allure-commandline
+          allure generate reports/allure-results -o reports/allure-report
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.node-version }}-${{ matrix.browser }}-${{ matrix.profile }}
+          path: |
+            reports/
+            logs/
+
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Report - ${{ matrix.profile }} - ${{ matrix.browser }}
+          path: 'reports/cucumber/*.json'
+          reporter: 'java-junit'
+
+      - name: Comment PR with test results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const testResults = JSON.parse(fs.readFileSync('reports/cucumber/cucumber-report.json', 'utf8'));
+            const passed = testResults.filter(s => s.elements.every(e => e.steps.every(st => st.result.status === 'passed'))).length;
+            const failed = testResults.filter(s => s.elements.some(e => e.steps.some(st => st.result.status === 'failed'))).length;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Test Results (${context.payload.pull_request.head.sha.substring(0, 7)})
+              **Browser:** ${{ matrix.browser }} | **Profile:** ${{ matrix.profile }}
+              ✅ Passed: ${passed} | ❌ Failed: ${failed}`
+            });
+
+  report:
+    if: always()
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Merge test reports
+        run: |
+          mkdir -p merged-results
+          find artifacts -name "*.json" -exec cp {} merged-results/ \;
+
+      - name: Publish to Allure Cloud
+        if: always()
+        run: |
+          npm install -g allure-commandline
+          allure generate merged-results -o allure-report
