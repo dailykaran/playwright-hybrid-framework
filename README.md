@@ -30,23 +30,23 @@ npm run test:debug        # Debug mode with Inspector
 ```
 src/
 +-- tests/                        # Feature files & step definitions
-¦   +-- ui/features/             # UI scenarios (.feature files)
-¦   +-- api/features/            # API scenarios (.feature files)
-¦   +-- step-definitions/        # Step implementations
+ï¿½   +-- ui/features/             # UI scenarios (.feature files)
+ï¿½   +-- api/features/            # API scenarios (.feature files)
+ï¿½   +-- step-definitions/        # Step implementations
 +-- pages/                       # Page Object Model
-¦   +-- base/base.page.ts       # Base class with common methods
-¦   +-- modules/                # Page classes (one per page)
-¦   +-- components/             # Reusable UI components
+ï¿½   +-- base/base.page.ts       # Base class with common methods
+ï¿½   +-- modules/                # Page classes (one per page)
+ï¿½   +-- components/             # Reusable UI components
 +-- api/                        # API testing
-¦   +-- clients/api.client.ts  # HTTP client wrapper
-¦   +-- services/              # API service classes
-¦   +-- models/                # Data models
-¦   +-- validators/            # Response validators
+ï¿½   +-- clients/api.client.ts  # HTTP client wrapper
+ï¿½   +-- services/              # API service classes
+ï¿½   +-- models/                # Data models
+ï¿½   +-- validators/            # Response validators
 +-- utils/                      # Utilities
-¦   +-- logger/                # Logging
-¦   +-- data/data-factory.ts  # Generate test data
-¦   +-- retry/                 # Retry flaky tests
-¦   +-- wait/                  # Smart element waits
+ï¿½   +-- logger/                # Logging
+ï¿½   +-- data/data-factory.ts  # Generate test data
+ï¿½   +-- retry/                 # Retry flaky tests
+ï¿½   +-- wait/                  # Smart element waits
 +-- hooks/                      # Test lifecycle (Before/After)
 +-- constants/                  # API endpoints & messages
 +-- test-data/                  # JSON test data files
