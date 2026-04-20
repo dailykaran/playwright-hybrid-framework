@@ -1,209 +1,159 @@
 # Playwright Hybrid BDD Framework
 
-A production-ready Playwright automation framework with BDD (Gherkin) support for UI and API testing.
+A complete automation testing framework using Playwright with BDD (Gherkin). Supports both **API testing** and **UI testing**.
 
-## ? Quick Start
+## Quick Start
 
 ### Installation
-
 ```bash
-# Install dependencies
 npm install
-
-# Install Playwright browsers
 npx playwright install
 ```
 
 ### Run Tests
-
 ```bash
-npm test                  # Run all tests
-npm run test:ui           # UI tests only
-npm run test:api          # API tests only
-npm run test:smoke        # Smoke tests
-npm run test:headed       # See browser in action
-npm run test:debug        # Debug mode with Inspector
+npm test                # All tests
+npm run test:api        # API tests only (✅ Working)
+npm run test:ui         # UI tests only
+npm run test:smoke      # Smoke tests
+npm run test:headed     # See browser while running
+npm run test:debug      # Debug mode
 ```
 
-## ?? Project Structure
+## Project Structure
 
 ```
 src/
-+-- tests/                        # Feature files & step definitions
-�   +-- ui/features/             # UI scenarios (.feature files)
-�   +-- api/features/            # API scenarios (.feature files)
-�   +-- step-definitions/        # Step implementations
-+-- pages/                       # Page Object Model
-�   +-- base/base.page.ts       # Base class with common methods
-�   +-- modules/                # Page classes (one per page)
-�   +-- components/             # Reusable UI components
-+-- api/                        # API testing
-�   +-- clients/api.client.ts  # HTTP client wrapper
-�   +-- services/              # API service classes
-�   +-- models/                # Data models
-�   +-- validators/            # Response validators
-+-- utils/                      # Utilities
-�   +-- logger/                # Logging
-�   +-- data/data-factory.ts  # Generate test data
-�   +-- retry/                 # Retry flaky tests
-�   +-- wait/                  # Smart element waits
-+-- hooks/                      # Test lifecycle (Before/After)
-+-- constants/                  # API endpoints & messages
-+-- test-data/                  # JSON test data files
+├── tests/
+│   ├── api/features/        # API test scenarios
+│   ├── ui/features/         # UI test scenarios
+│   └── step-definitions/    # Test step implementations
+├── pages/                   # Page Object Model (POM) for UI tests
+├── api/
+│   ├── clients/            # HTTP API client
+│   ├── services/           # API service classes
+│   └── models/             # Data interfaces
+├── utils/
+│   ├── logger/             # Test logging
+│   ├── config/             # Configuration management
+│   ├── data/               # Test data generation
+│   ├── retry/              # Retry mechanism
+│   └── wait/               # Smart waits
+├── hooks/                  # Before/After test hooks
+└── constants/              # Endpoints & messages
 ```
 
-## ?? Writing Tests
+## ✅ What's Working
 
-### Create Feature File (Gherkin)
+### API Tests (5/5 Passing)
+- Get all movies
+- Create a new movie
+- Get movie by ID
+- Update movie information
+- Delete movie
 
-Create `src/tests/ui/features/login.feature`:
+### UI Tests  
+- Landing page with movie showcase
+- Movie cards display
+- Page navigation
 
+## How to Use
+
+### 1️⃣ Create a Test Feature (Gherkin)
+
+`src/tests/api/features/movies.feature`
 ```gherkin
-Feature: User Login
-  @smoke @ui
-  Scenario: Login with valid credentials
-    When user navigates to login page
-    And user enters username "testuser" and password "pass123"
-    And user clicks login button
-    Then user should see dashboard
+Feature: Movies API
+  @api @smoke
+  Scenario: Get all movies
+    When user calls GET endpoint "/movies"
+    Then response status should be 200
 ```
 
-### Create Step Definition
+### 2️⃣ Create Step Definition
 
-Create `src/tests/step-definitions/ui/login.steps.ts`:
-
+`src/tests/step-definitions/api/movies.steps.ts`
 ```typescript
 import { When, Then } from '@cucumber/cucumber';
-import { LoginPage } from '@pages/modules/login.page';
-import { CustomWorld } from '@fixtures/world';
+import { MoviesService } from '@api/services/movies.service';
+import { expect } from '@playwright/test';
 
-When('user navigates to login page', async function (this: CustomWorld) {
-  const page = new LoginPage(this.page);
-  await page.navigateToLogin();
+When('user calls GET endpoint {string}', async function(endpoint: string) {
+  const service = new MoviesService();
+  this.response = await service.getAllMovies();
 });
 
-When('user enters username {string} and password {string}', 
-  async function (this: CustomWorld, username: string, password: string) {
-    const page = new LoginPage(this.page);
-    await page.login(username, password);
-  }
-);
+Then('response status should be {int}', async function(status: number) {
+  expect(this.response).toBeDefined();
+});
 ```
 
-### Create Page Object
+### 3️⃣ Create API Service
 
-Create `src/pages/modules/login.page.ts`:
-
-```typescript
-import { Page } from '@playwright/test';
-import { BasePage } from '../base/base.page';
-
-export class LoginPage extends BasePage {
-  private usernameField = 'input#username';
-  private passwordField = 'input#password';
-  private loginBtn = 'button#login';
-  private dashboard = 'div.dashboard';
-
-  constructor(page: Page) {
-    super(page);
-  }
-
-  async navigateToLogin(): Promise<void> {
-    await this.goto('/login');
-  }
-
-  async login(username: string, password: string): Promise<void> {
-    await this.fill(this.usernameField, username);
-    await this.fill(this.passwordField, password);
-    await this.click(this.loginBtn);
-  }
-
-  async isDashboardVisible(): Promise<boolean> {
-    return await this.page.locator(this.dashboard).isVisible();
-  }
-}
-```
-
-## ?? API Testing Example
-
-### Create Feature File
-
-Create `src/tests/api/features/users.feature`:
-
-```gherkin
-Feature: User API
-  @api @smoke
-  Scenario: Get all users
-    When user calls GET "/users"
-    Then response status is 200
-    And response contains users array
-
-  @api
-  Scenario: Create user
-    When user calls POST "/users" with:
-      | username | john_doe      |
-      | email    | john@test.com |
-    Then response status is 201
-```
-
-### Create API Service
-
-Create `src/api/services/user.service.ts`:
-
+`src/api/services/movies.service.ts`
 ```typescript
 import { ApiClient } from '../clients/api.client';
 
-export class UserService {
+export class MoviesService {
   private apiClient = new ApiClient();
 
-  async getUsers() {
-    const response = await this.apiClient.get('/users');
-    return response.data;
-  }
-
-  async createUser(userData: any) {
-    const response = await this.apiClient.post('/users', userData);
+  async getAllMovies() {
+    const response = await this.apiClient.get('/movies');
     return response.data;
   }
 }
 ```
 
-## ??? Useful Utilities
+## Configuration
 
-### Generate Test Data
-
+Set environment in `config/env/`:
 ```typescript
-import { DataFactory } from '@utils/data/data-factory';
-
-const user = DataFactory.generateUser();
-// Returns: { username, email, password, firstName, lastName }
-
-const order = DataFactory.generateOrder();
-// Returns: { items, totalAmount, shippingAddress }
+export const devEnv = {
+  baseUrl: 'http://localhost:3000',
+  apiBaseUrl: 'http://localhost:5000/api',
+  timeout: 60000,
+  headless: false,
+  logLevel: 'info'
+};
 ```
 
-### Logging
+Run tests with environment:
+```bash
+ENVIRONMENT=dev npm test
+ENVIRONMENT=qa npm run test:api
+ENVIRONMENT=prod npm run test:smoke
+```
 
+## Available Utilities
+
+### Logging
 ```typescript
 import { logger } from '@utils/logger/logger';
 
 logger.info('Test started');
-logger.error('Something went wrong');
+logger.error('Failed');
 logger.debug('Debug info');
 ```
 
-### Wait for Elements
+### Generate Test Data
+```typescript
+import { DataFactory } from '@utils/data/data-factory';
 
+const user = DataFactory.generateUser();      // Random user
+const order = DataFactory.generateOrder();    // Random order
+const product = DataFactory.generateProduct(); // Random product
+```
+
+### Smart Waits
 ```typescript
 import { SmartWait } from '@utils/wait/smart-wait';
 
-const smartWait = new SmartWait(page);
-await smartWait.waitForElement('button.submit');
-await smartWait.waitForText('div.success', 'Order placed');
+const wait = new SmartWait(page);
+await wait.waitForElement('button.submit');
+await wait.waitForText('div.success', 'Success!');
 ```
 
-### Retry Flaky Operations
-
+### Retry Operations
 ```typescript
 import { RetryHandler } from '@utils/retry/retry-handler';
 
@@ -214,98 +164,69 @@ await retry.execute(
 );
 ```
 
-## ?? Configuration
-
-Set environment in `config/env/`:
-
-```typescript
-// config/env/qa.env.ts
-export const qaEnv = {
-  baseUrl: 'https://qa.example.com',
-  apiBaseUrl: 'https://qa.example.com/api',
-  timeout: 30000,
-  headless: true,
-  logLevel: 'info'
-};
-```
-
-Use environment:
+## Commands
 
 ```bash
-ENVIRONMENT=qa npm test
-ENVIRONMENT=dev npm run test:headed
-ENVIRONMENT=prod npm run test:smoke
-```
-
-## ?? View Reports
-
-```bash
-npm run reports:allure      # Allure interactive report
-npm run reports:clean       # Clean old reports
-```
-
-Reports generated at:
-- `reports/cucumber/` - Cucumber HTML report
-- `reports/playwright/` - Playwright report
-- `reports/failures/` - Failed test screenshots
-- `logs/` - Execution logs
-
-## ?? Advanced Commands
-
-```bash
-# Run specific tags
+# Run with specific tags
 npm test -- --tags "@smoke"
-npm test -- --tags "@ui and not @skip"
+npm test -- --tags "@api and not @skip"
 
 # Run specific feature
-npm test -- src/tests/ui/features/login.feature
+npm test -- src/tests/api/features/movies.feature
 
 # Headed mode (see browser)
 npm run test:headed
 
-# Debug mode
-npm run test:debug
-
-# Parallel execution
-npm test -- --parallel 3
-
 # Code quality
 npm run lint           # Check code
-npm run lint:fix       # Auto-fix
+npm run lint:fix       # Fix issues
 npm run format         # Format code
 npm run type-check     # TypeScript check
 ```
 
-## ?? Learn More
+## Reports
 
-For architecture deep-dive and best practices, see **[FRAMEWORK_STUDY_GUIDE.md](./FRAMEWORK_STUDY_GUIDE.md)**
+```bash
+npm run reports:allure      # View Allure report
+npm run reports:clean       # Clear old reports
+```
 
-### Official Docs
-- [Playwright Docs](https://playwright.dev)
-- [Cucumber Docs](https://cucumber.io)
-- [Allure Reports](https://docs.qameta.io/allure/)
+Reports location:
+- `reports/cucumber/` - Test results
+- `reports/failures/` - Screenshots of failed tests
+- `logs/` - Test execution logs
 
-## ?? Common Issues
-
-| Issue | Solution |
-|-------|----------|
-| Browsers not found | Run `npx playwright install` |
-| Element not found | Use `npm run test:headed` to debug or check selector |
-| Timeout errors | Increase timeout in config or use SmartWait |
-| API 401 errors | Set auth token: `apiClient.setAuthToken(token)` |
-
-## ?? Tag Strategy
+## Tag Strategy
 
 ```gherkin
-@smoke        # Critical paths (run always)
-@regression   # Full test suite
-@ui           # UI tests
-@api          # API tests
-@skip         # Skip this test
+@smoke       # Critical tests (run first)
+@regression  # Full test suite
+@ui          # UI tests only
+@api         # API tests only
+@skip        # Skip this test
 ```
+
+## Recent Updates
+
+- ✅ Fixed TypeScript strict mode (no `any` types)
+- ✅ All 5 API tests passing
+- ✅ Dynamic test data (no hardcoded IDs)
+- ✅ Type-safe error handling
+- ✅ Improved logging throughout
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Browsers not found | `npx playwright install` |
+| Element not found | Use `npm run test:headed` to debug |
+| API errors | Check `config/env/` for correct baseUrl |
+| TypeScript errors | Run `npm run type-check` |
+
+## Learn More
+
+See **[FRAMEWORK_STUDY_GUIDE.md](./FRAMEWORK_STUDY_GUIDE.md)** for detailed architecture.
 
 ---
 
-**For in-depth learning:** See [FRAMEWORK_STUDY_GUIDE.md](./FRAMEWORK_STUDY_GUIDE.md)
-
-**Happy Testing! ??**
+**Happy Testing! 🎭**

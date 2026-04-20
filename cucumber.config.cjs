@@ -19,8 +19,7 @@ module.exports = {
     format: [
       'progress-bar',
       'json:reports/cucumber/cucumber-report.json',
-      'html:reports/cucumber/cucumber-report.html',
-      '@cucumber/pretty-formatter'
+      'html:reports/cucumber/cucumber-report.html'
     ],
     formatOptions: {
       snippetInterface: 'async-await',

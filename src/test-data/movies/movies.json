@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Inception",
+    "genre": "Sci-Fi",
+    "releaseYear": 2010,
+    "directedBy": "Christopher Nolan",
+    "runtime": 148,
+    "description": "A thief who steals corporate secrets through the use of dream-sharing technology",
+    "language": "English",
+    "rating": 8.8
+  },
+  {
+    "title": "The Dark Knight",
+    "genre": "Action",
+    "releaseYear": 2008,
+    "directedBy": "Christopher Nolan",
+    "runtime": 152,
+    "description": "When the menace known as the Joker wreaks havoc and chaos on Gotham",
+    "language": "English",
+    "rating": 9.0
+  },
+  {
+    "title": "Interstellar",
+    "genre": "Sci-Fi",
+    "releaseYear": 2014,
+    "directedBy": "Christopher Nolan",
+    "runtime": 169,
+    "description": "A team of explorers travel through a wormhole in space",
+    "language": "English",
+    "rating": 8.7
+  },
+  {
+    "title": "The Matrix",
+    "genre": "Sci-Fi",
+    "releaseYear": 1999,
+    "directedBy": "The Wachowskis",
+    "runtime": 136,
+    "description": "A computer programmer discovers that reality as he knows it is a simulation",
+    "language": "English",
+    "rating": 8.7
+  },
+  {
+    "title": "Parasite",
+    "genre": "Drama",
+    "releaseYear": 2019,
+    "directedBy": "Bong Joon-ho",
+    "runtime": 132,
+    "description": "Greed and class discrimination threaten the newly formed symbiotic relationship",
+    "language": "Korean",
+    "rating": 8.6
+  }
+]

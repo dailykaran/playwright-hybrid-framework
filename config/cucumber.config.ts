@@ -11,21 +11,10 @@ module.exports = {
     format: [
       'progress-bar',
       'json:reports/cucumber/cucumber-report.json',
-      'html:reports/cucumber/cucumber-report.html',
-      '@cucumber/pretty-formatter'
+      'html:reports/cucumber/cucumber-report.html'
     ],
     formatOptions: {
-      snippetInterface: 'async-await',
-      theme: {
-        'feature keyword': ['cyan', 'bold'],
-        'feature description': ['cyan'],
-        'scenario keyword': ['yellow', 'bold'],
-        'scenario description': ['yellow'],
-        'step keyword': ['magenta', 'bold'],
-        'step text': ['magenta'],
-        'tag': ['cyan'],
-        'failed step': ['red', 'bold']
-      }
+      snippetInterface: 'async-await'
     },
     parallel: 2,
     strict: true,

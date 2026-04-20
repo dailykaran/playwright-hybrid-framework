@@ -7,6 +7,7 @@
     "test": "cucumber-js",
     "test:ui": "cucumber-js --profile ui",
     "test:api": "cucumber-js --profile api",
+    "test:api:movies": "ENVIRONMENT=api-movies cucumber-js --profile api",
     "test:all": "cucumber-js --profile all",
     "test:headed": "HEADED=true cucumber-js --profile ui",
     "test:debug": "PWDEBUG=1 cucumber-js --profile ui",
@@ -34,6 +35,7 @@
   "license": "MIT",
   "devDependencies": {
     "@cucumber/cucumber": "^10.0.0",
+    "@cucumber/pretty-formatter": "^3.2.0",
     "@faker-js/faker": "^8.4.0",
     "@playwright/test": "^1.48.0",
     "@types/node": "^22.0.0",

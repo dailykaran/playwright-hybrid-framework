@@ -1,9 +1,9 @@
-export const devEnv = {
-  env: 'development',
+export const apiMoviesEnv = {
+  env: 'api-movies',
   baseUrl: 'http://localhost:3000',
   apiBaseUrl: 'http://localhost:5000/api',
   timeout: 60000,
-  headless: false,
+  headless: true,
   slowMo: 0,
   screenshot: 'only-on-failure',
   video: 'off',
