@@ -44,7 +44,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
     When user navigates to home page
     Then search box should be visible
     And search placeholder should contain "Search"
-    When user enters "Inception" in search box
+    When user enters "Avengers" in search box
     Then search should filter movie results
 
   @ui @mandatory

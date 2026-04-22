@@ -20,12 +20,13 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     actionTimeout: 10000,
-    navigationTimeout: 30000
+    navigationTimeout: 30000, 
+    slowMo: 2500
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], }
+      use: { ...devices['Desktop Chrome'], channel: 'chromium', slowMo: 900 }
     },
     /*
     {

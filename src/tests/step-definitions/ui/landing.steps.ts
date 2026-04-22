@@ -122,6 +122,10 @@ Then('search box should be visible', async function (this: CustomWorld) {
 
 Then('search placeholder should contain {string}', async function (this: CustomWorld, expectedText: string) {
   // This is validated by the search box being present
+  const searchBox = await this.page.locator('input[placeholder]');
+  const placeholder = await searchBox?.getAttribute('placeholder');
+  expect(placeholder).toContain(expectedText);
+
   logger.info(`Search placeholder contains: ${expectedText}`);
 });
 
@@ -134,6 +138,12 @@ When('user enters {string} in search box', async function (this: CustomWorld, se
 });
 
 Then('search should filter movie results', async function (this: CustomWorld) {
+  const results = this.page.locator('.MuiCard-root');
+  expect(await results.count()).toBeGreaterThan(0);
+  const movieTitles = await results.filter({has: this.page.locator('div h2')}).first().allTextContents();
+  expect(movieTitles.some(title => title.toLowerCase().includes('avengers'))).toBeTruthy();
+  logger.info(`Search results count: ${await results.count()}`);
+  logger.info(`Search results titles: ${movieTitles.join(', ')}`);
   logger.info('Search functionality filters results');
 });
 
