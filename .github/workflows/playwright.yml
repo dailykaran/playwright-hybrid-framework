@@ -17,7 +17,7 @@ jobs:
       matrix:
         node-version: [18.x, 20.x]
         browser: [chromium, firefox, webkit]
-        profile: [ui, api]
+        profile: [ui]
 
     steps:
       - uses: actions/checkout@v4

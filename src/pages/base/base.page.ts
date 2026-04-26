@@ -22,7 +22,7 @@ export class BasePage {
     // Construct full URL by combining baseUrl with the provided path
     const baseUrl = configManager.getBaseUrl();
     const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
-    
+
     logger.info(`Navigating to URL: ${fullUrl}`);
     await this.page.goto(fullUrl, { waitUntil: 'networkidle', ...options });
   }

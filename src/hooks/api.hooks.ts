@@ -11,7 +11,7 @@ import { configManager } from '../utils/config/config-manager';
 Before({ tags: '@api' }, async function (this: CustomWorld) {
   logger.info('Initializing API client for API tests');
   this.testData.apiClient = new ApiClient();
-  
+
   // Check if authentication is required
   const environment = process.env.ENVIRONMENT || 'dev';
   if (environment !== 'api-movies') {

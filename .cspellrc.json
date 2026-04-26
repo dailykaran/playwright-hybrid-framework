@@ -1,0 +1,33 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "dorny",
+    "tsconfig",
+    "stringify",
+    "destructuring",
+    "Gherkin",
+    "BDD",
+    "Allure",
+    "cSpell",
+    "Cucumber",
+    "Playwright",
+    "ESLint",
+    "Prettier"
+  ],
+  "ignoreWords": [],
+  "import": [],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "reports",
+    "logs",
+    ".git",
+    "package-lock.json",
+    ".prettierrc",
+    ".eslintrc.json",
+    "tsconfig.json",
+    "cucumber.js",
+    "loader.js"
+  ]
+}

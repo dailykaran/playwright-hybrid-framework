@@ -39,7 +39,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
       | price |
       | book button |
 
-  @only-this @ui 
+  @ui 
   Scenario: Verify search functionality for movies
     When user navigates to home page
     Then search box should be visible
@@ -65,7 +65,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
     Then each movie should display duration in minutes
     And duration information should be visible for all movies
   
-  @ui
+  @only-this @ui 
   Scenario: Verify responsive design on mobile viewport
     When user navigates to home page
     And user resizes viewport to mobile size

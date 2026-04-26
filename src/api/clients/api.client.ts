@@ -13,8 +13,8 @@ export class ApiClient {
       baseURL: this.baseUrl,
       timeout: 30000,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     // Add response interceptor for logging
@@ -59,7 +59,11 @@ export class ApiClient {
   /**
    * POST request
    */
-  async post<T>(endpoint: string, data: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async post<T>(
+    endpoint: string,
+    data: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     logger.info(`POST request to: ${endpoint}`);
     return await this.instance.post<T>(endpoint, data, config);
   }
@@ -67,7 +71,11 @@ export class ApiClient {
   /**
    * PUT request
    */
-  async put<T>(endpoint: string, data: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async put<T>(
+    endpoint: string,
+    data: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     logger.info(`PUT request to: ${endpoint}`);
     return await this.instance.put<T>(endpoint, data, config);
   }
@@ -75,7 +83,11 @@ export class ApiClient {
   /**
    * PATCH request
    */
-  async patch<T>(endpoint: string, data: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async patch<T>(
+    endpoint: string,
+    data: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     logger.info(`PATCH request to: ${endpoint}`);
     return await this.instance.patch<T>(endpoint, data, config);
   }

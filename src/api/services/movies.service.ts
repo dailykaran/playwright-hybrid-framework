@@ -1,5 +1,10 @@
 import { ApiClient } from '../clients/api.client';
-import { Movie, CreateMovieRequest, UpdateMovieRequest, SearchMovieParams } from '../models/movies.model';
+import {
+  Movie,
+  CreateMovieRequest,
+  UpdateMovieRequest,
+  SearchMovieParams,
+} from '../models/movies.model';
 import { logger } from '@utils/logger/logger';
 
 export class MoviesService {
@@ -84,7 +89,7 @@ export class MoviesService {
   async searchMovies(params: SearchMovieParams): Promise<Movie[]> {
     try {
       const response = await this.apiClient.get<Movie[]>('/movies/search', {
-        params
+        params,
       });
       logger.info(`Found ${response.data.length} movies matching criteria`);
       return response.data;

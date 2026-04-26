@@ -10,6 +10,6 @@ register({
     '@utils/*': ['src/utils/*'],
     '@constants/*': ['src/constants/*'],
     '@types/*': ['src/types/*'],
-    '@test-data/*': ['src/test-data/*']
-  }
+    '@test-data/*': ['src/test-data/*'],
+  },
 });

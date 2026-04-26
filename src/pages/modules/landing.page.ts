@@ -4,18 +4,19 @@ import { BasePage } from '../base/base.page';
 export class LandingPage extends BasePage {
   // TicketsVenue specific selectors
   private logoImg = 'img[alt*="Logo"], .logo img, [class*="logo"]';
-  private brandName = 'header >> text=TicketsVenue, div:has-text("TicketsVenue"), [class*="brand"] >> text=TicketsVenue, h1:has-text("TicketsVenue")';
-  
+  private brandName =
+    'header >> text=TicketsVenue, div:has-text("TicketsVenue"), [class*="brand"] >> text=TicketsVenue, h1:has-text("TicketsVenue")';
+
   // Movie Showcase section
   private movieShowcaseSection = 'section, [class*="showcase"], [class*="viewer"]';
   private movieShowcaseHeading = 'h4, h3, [class*="showcase-title"]';
   private movieShowcaseIframe = 'iframe';
-  
+
   // Now Showing section
   private nowShowingSection = '[class*="now"], [class*="showing"], section';
   private nowShowingHeading = 'h3:has-text("Now Showing"), [class*="heading"]';
   private searchBox = '.MuiInputBase-input.MuiInputBase-inputSizeSmall';
-  
+
   // Movie cards
   private movieCards = '[class*="card"], [class*="movie"], .movie-item, div[class*="film"]';
   private movieImage = 'img[alt*="movie"], img[alt*="Movie"], img';
@@ -195,9 +196,11 @@ export class LandingPage extends BasePage {
    * Click Book Now button for a specific movie
    */
   async clickBookButtonForMovie(movieTitle: string): Promise<void> {
-    const movieCard = this.page.locator(`h2:has-text("${movieTitle}"), h2:has-text("${movieTitle.toLowerCase()}")`).first();
+    const movieCard = this.page
+      .locator(`h2:has-text("${movieTitle}"), h2:has-text("${movieTitle.toLowerCase()}")`)
+      .first();
     const bookButton = movieCard.locator('xpath=following::button:has-text("Book Now")').first();
-    
+
     if (await bookButton.isVisible()) {
       await this.click(bookButton);
     }

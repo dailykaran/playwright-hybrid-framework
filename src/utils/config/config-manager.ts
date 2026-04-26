@@ -15,14 +15,14 @@ export class ConfigManager {
    */
   private loadConfig(): void {
     const env = this.environment as keyof typeof environments;
-    
+
     if (!environments[env]) {
       logger.warn(`Environment "${this.environment}" not found. Using 'dev'`);
       this.config = environments.dev;
     } else {
       this.config = environments[env];
     }
-    
+
     logger.info(`Loaded configuration for environment: ${this.environment}`);
   }
 

@@ -1,4 +1,11 @@
-import { World, IWorldOptions, setWorldConstructor, Before, After, Status } from '@cucumber/cucumber';
+import {
+  World,
+  IWorldOptions,
+  setWorldConstructor,
+  Before,
+  After,
+  Status,
+} from '@cucumber/cucumber';
 import { Page, Browser, BrowserContext } from '@playwright/test';
 import { chromium, firefox, webkit } from 'playwright';
 import { logger } from '../utils/logger/logger';
@@ -21,30 +28,30 @@ export class CustomWorld extends World {
    */
   async initializeBrowser(): Promise<void> {
     const browserName = process.env.BROWSER || 'chromium';
-    
+
     switch (browserName) {
       case 'firefox':
         this.browser = await firefox.launch({
           headless: configManager.isHeadless(),
-          slowMo: configManager.getSlowMo()
+          slowMo: configManager.getSlowMo(),
         });
         break;
       case 'webkit':
         this.browser = await webkit.launch({
           headless: configManager.isHeadless(),
-          slowMo: configManager.getSlowMo()
+          slowMo: configManager.getSlowMo(),
         });
         break;
       default:
         this.browser = await chromium.launch({
           headless: configManager.isHeadless(),
-          slowMo: configManager.getSlowMo()
+          slowMo: configManager.getSlowMo(),
         });
     }
 
     this.context = await this.browser.newContext();
     this.page = await this.context.newPage();
-    
+
     logger.info(`Browser initialized: ${browserName}`);
   }
 

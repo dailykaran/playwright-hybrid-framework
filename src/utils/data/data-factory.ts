@@ -12,7 +12,7 @@ export class DataFactory {
       password: faker.internet.password({ length: 12, memorable: false }),
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
-      role: 'user' as const
+      role: 'user' as const,
     };
     logger.info(`Generated user: ${user.username}`);
     return user;
@@ -27,11 +27,11 @@ export class DataFactory {
         {
           productId: faker.number.int({ min: 1, max: 1000 }),
           quantity: faker.number.int({ min: 1, max: 10 }),
-          price: parseFloat(faker.commerce.price({ min: 10, max: 500 }))
-        }
+          price: parseFloat(faker.commerce.price({ min: 10, max: 500 })),
+        },
       ],
       totalAmount: parseFloat(faker.commerce.price({ min: 100, max: 5000 })),
-      shippingAddress: faker.location.streetAddress()
+      shippingAddress: faker.location.streetAddress(),
     };
     logger.info(`Generated order with total: ${order.totalAmount}`);
     return order;
@@ -46,7 +46,7 @@ export class DataFactory {
       description: faker.commerce.productDescription(),
       price: parseFloat(faker.commerce.price({ min: 10, max: 500 })),
       category: faker.commerce.department(),
-      stock: faker.number.int({ min: 0, max: 1000 })
+      stock: faker.number.int({ min: 0, max: 1000 }),
     };
     logger.info(`Generated product: ${product.name}`);
     return product;

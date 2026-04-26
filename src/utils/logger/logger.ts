@@ -21,21 +21,18 @@ export const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        logFormat
-      )
+      format: winston.format.combine(winston.format.colorize(), logFormat),
     }),
     new winston.transports.File({
       filename: path.join(logsDir, 'execution.log'),
       maxsize: 5242880, // 5MB
-      maxFiles: 10
+      maxFiles: 10,
     }),
     new winston.transports.File({
       filename: path.join(logsDir, 'error.log'),
       level: 'error',
       maxsize: 5242880, // 5MB
-      maxFiles: 10
-    })
-  ]
+      maxFiles: 10,
+    }),
+  ],
 });

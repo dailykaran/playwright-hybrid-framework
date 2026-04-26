@@ -10,7 +10,9 @@ export class ResponseValidator {
     if (isValid) {
       logger.info(`Status validation passed: ${response.status}`);
     } else {
-      logger.error(`Status validation failed. Expected: ${expectedStatus}, Got: ${response.status}`);
+      logger.error(
+        `Status validation failed. Expected: ${expectedStatus}, Got: ${response.status}`
+      );
     }
     return isValid;
   }
@@ -19,8 +21,8 @@ export class ResponseValidator {
    * Validate response contains required fields
    */
   static validateRequiredFields(data: any, requiredFields: string[]): boolean {
-    const missingFields = requiredFields.filter(field => !(field in data));
-    
+    const missingFields = requiredFields.filter((field) => !(field in data));
+
     if (missingFields.length === 0) {
       logger.info('All required fields present in response');
       return true;
@@ -36,7 +38,7 @@ export class ResponseValidator {
   static validateDataType(data: any, expectedType: string): boolean {
     const actualType = typeof data;
     const isValid = actualType === expectedType;
-    
+
     if (isValid) {
       logger.info(`Data type validation passed: ${actualType}`);
     } else {
@@ -50,11 +52,13 @@ export class ResponseValidator {
    */
   static validateArrayLength(data: any[], expectedLength: number): boolean {
     const isValid = data.length === expectedLength;
-    
+
     if (isValid) {
       logger.info(`Array length validation passed: ${data.length}`);
     } else {
-      logger.error(`Array length validation failed. Expected: ${expectedLength}, Got: ${data.length}`);
+      logger.error(
+        `Array length validation failed. Expected: ${expectedLength}, Got: ${data.length}`
+      );
     }
     return isValid;
   }
@@ -65,11 +69,13 @@ export class ResponseValidator {
   static validateFieldValue(data: any, fieldPath: string, expectedValue: any): boolean {
     const actualValue = this.getNestedValue(data, fieldPath);
     const isValid = actualValue === expectedValue;
-    
+
     if (isValid) {
       logger.info(`Field value validation passed: ${fieldPath} = ${expectedValue}`);
     } else {
-      logger.error(`Field value validation failed. Field: ${fieldPath}, Expected: ${expectedValue}, Got: ${actualValue}`);
+      logger.error(
+        `Field value validation failed. Field: ${fieldPath}, Expected: ${expectedValue}, Got: ${actualValue}`
+      );
     }
     return isValid;
   }
@@ -84,12 +90,15 @@ export class ResponseValidator {
   /**
    * Validate response contains all required fields and valid structure
    */
-  static validateResponse(response: AxiosResponse, validation: {
-    status?: number;
-    requiredFields?: string[];
-    dataType?: string;
-    fieldValues?: { [key: string]: any };
-  }): boolean {
+  static validateResponse(
+    response: AxiosResponse,
+    validation: {
+      status?: number;
+      requiredFields?: string[];
+      dataType?: string;
+      fieldValues?: { [key: string]: any };
+    }
+  ): boolean {
     let isValid = true;
 
     if (validation.status) {

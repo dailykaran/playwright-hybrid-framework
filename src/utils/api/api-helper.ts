@@ -30,7 +30,7 @@ export class ApiHelper {
   getDefaultHeaders(): { [key: string]: string } {
     return {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json',
     };
   }
 
@@ -40,7 +40,7 @@ export class ApiHelper {
   getCustomHeaders(customHeaders: { [key: string]: string }): { [key: string]: string } {
     return {
       ...this.getDefaultHeaders(),
-      ...customHeaders
+      ...customHeaders,
     };
   }
 
@@ -49,7 +49,9 @@ export class ApiHelper {
    */
   validateResponseStatus(status: number, expectedStatus: number): boolean {
     const isValid = status === expectedStatus;
-    logger.info(`Response status validation: Expected ${expectedStatus}, Got ${status} - ${isValid ? 'PASS' : 'FAIL'}`);
+    logger.info(
+      `Response status validation: Expected ${expectedStatus}, Got ${status} - ${isValid ? 'PASS' : 'FAIL'}`
+    );
     return isValid;
   }
 

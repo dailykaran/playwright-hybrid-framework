@@ -8,19 +8,19 @@ import { logger } from '../utils/logger/logger';
 
 Before(async function (this: CustomWorld, scenario) {
   logger.info(`========== Starting Scenario: ${scenario.pickle.name} ==========`);
-  logger.info(`Tags: ${scenario.pickle.tags.map(t => t.name).join(', ') || 'None'}`);
+  logger.info(`Tags: ${scenario.pickle.tags.map((t) => t.name).join(', ') || 'None'}`);
 });
 
 After(async function (this: CustomWorld, scenario) {
   const status = scenario.result?.status;
-  
+
   if (status === Status.FAILED) {
     logger.error(`Scenario FAILED: ${scenario.pickle.name}`);
     if (this.page) {
       try {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         await this.page.screenshot({
-          path: `reports/failures/${scenario.pickle.name}-${timestamp}.png`
+          path: `reports/failures/${scenario.pickle.name}-${timestamp}.png`,
         });
         logger.info(`Screenshot saved for failed scenario`);
       } catch (error) {

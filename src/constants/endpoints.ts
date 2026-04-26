@@ -6,5 +6,5 @@ export const API_ENDPOINTS = {
   MOVIES: '/movies',
   MOVIE_BY_ID: (id: string | number) => `/movies/${id}`,
   MOVIES_SEARCH: '/movies/search',
-  MOVIES_BY_GENRE: (genre: string) => `/movies/genre/${genre}`
+  MOVIES_BY_GENRE: (genre: string) => `/movies/genre/${genre}`,
 };
