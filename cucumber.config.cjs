@@ -14,7 +14,7 @@ require('tsconfig-paths').register({
 
 module.exports = {
   default: {
-    require: ['src/tests/step-definitions/**/*.steps.ts', 'src/hooks/**/*.ts'],
+    require: ['src/worker-setup.js', 'src/setup.ts', 'src/tests/step-definitions/**/*.steps.ts', 'src/hooks/**/*.ts'],
     requireModule: ['ts-node/register'],
     format: [
       'progress-bar',
@@ -41,7 +41,7 @@ module.exports = {
     order: 'random'
   },
   ui: {
-    require: ['src/tests/step-definitions/ui/**/*.steps.ts', 'src/hooks/**/*.ts'],
+    require: ['src/worker-setup.js', 'src/setup.ts', 'src/tests/step-definitions/ui/**/*.steps.ts', 'src/hooks/**/*.ts'],
     requireModule: ['ts-node/register'],
     features: ['src/tests/ui/features'],
     format: [
@@ -49,10 +49,10 @@ module.exports = {
       'json:reports/cucumber/ui-report.json',
       'html:reports/cucumber/ui-report.html'
     ],
-    parallel: 2
+    parallel: 1
   },
   api: {
-    require: ['src/tests/step-definitions/api/**/*.steps.ts', 'src/hooks/**/*.ts'],
+    require: ['src/worker-setup.js', 'src/setup.ts', 'src/tests/step-definitions/api/**/*.steps.ts', 'src/hooks/**/*.ts'],
     requireModule: ['ts-node/register'],
     features: ['src/tests/api/features'],
     format: [
@@ -63,13 +63,13 @@ module.exports = {
     parallel: 2
   },
   all: {
-    require: ['src/tests/step-definitions/**/*.steps.ts', 'src/hooks/**/*.ts'],
+    require: ['src/worker-setup.js', 'src/setup.ts', 'src/tests/step-definitions/**/*.steps.ts', 'src/hooks/**/*.ts'],
     requireModule: ['ts-node/register'],
     format: [
       'progress-bar',
       'json:reports/cucumber/all-report.json',
       'html:reports/cucumber/all-report.html'
     ],
-    parallel: 3
+    parallel: 1
   }
 };

@@ -1,19 +1,16 @@
 import { When, Then, DataTable } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { LandingPage } from '@pages/modules/landing.page';
 import { CustomWorld } from '@fixtures/world';
 import { logger } from '@utils/logger/logger';
 
 // Basic Navigation Steps
 When('user navigates to home page', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  await landingPage.navigateToHome();
+  await this.landingPage.navigateToHome(); 
   logger.info('User navigated to home page');
 });
 
 Then('landing page should be displayed', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  await landingPage.verifyLandingPageDisplayed();
+  await this.landingPage.verifyLandingPageDisplayed();
   logger.info('Landing page is displayed');
 });
 
@@ -21,32 +18,28 @@ Then('landing page should be displayed', async function (this: CustomWorld) {
 Then(
   'page title should contain {string}',
   async function (this: CustomWorld, expectedTitle: string) {
-    const landingPage = new LandingPage(this.page);
-    const title = await landingPage.getPageTitle();
+    const title = await this.landingPage.getPageTitle();
     expect(title.toLowerCase()).toContain(expectedTitle.toLowerCase());
     logger.info(`Page title verified: ${title}`);
   }
 );
 
 Then('TicketsVenue logo should be visible', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isLogoVisible = await landingPage.isLogoVisible();
+  const isLogoVisible = await this.landingPage.isLogoVisible();
   expect(isLogoVisible).toBeTruthy();
   logger.info('TicketsVenue logo is visible');
 });
 
 Then('TicketsVenue brand name should be visible', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isBrandVisible = await landingPage.isBrandNameVisible();
+  const isBrandVisible = await this.landingPage.isBrandNameVisible();
   expect(isBrandVisible).toBeTruthy();
-  const brandName = await landingPage.getBrandName();
+  const brandName = await this.landingPage.getBrandName();
   logger.info(`Brand name visible: ${brandName}`);
 });
 
 // Movie Showcase Section
 Then('movie showcase section should be visible', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isVisible = await landingPage.isMovieShowcaseSectionVisible();
+  const isVisible = await this.landingPage.isMovieShowcaseSectionVisible();
   expect(isVisible).toBeTruthy();
   logger.info('Movie showcase section is visible');
 });
@@ -54,8 +47,7 @@ Then('movie showcase section should be visible', async function (this: CustomWor
 Then(
   'movie showcase heading should contain {string}',
   async function (this: CustomWorld, expectedText: string) {
-    const landingPage = new LandingPage(this.page);
-    const headingText = await landingPage.getMovieShowcaseHeadingText();
+    const headingText = await this.landingPage.getMovieShowcaseHeadingText();
     // Allow empty or matching heading
     if (headingText) {
       expect(headingText.toLowerCase()).toContain(expectedText.toLowerCase());
@@ -65,8 +57,7 @@ Then(
 );
 
 Then('movie showcase iframe should be present', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isPresent = await landingPage.isMovieShowcaseIframePresent();
+  const isPresent = await this.landingPage.isMovieShowcaseIframePresent();
   expect(isPresent).toBeTruthy();
   logger.info('Movie showcase iframe is present' );
 });
@@ -81,22 +72,19 @@ Then('showcase iframe features should be described', async function (this: Custo
 
 // Now Showing Section
 Then('now showing section should be visible', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isVisible = await landingPage.isNowShowingSectionVisible();
+  const isVisible = await this.landingPage.isNowShowingSectionVisible();
   expect(isVisible).toBeTruthy();
   logger.info('Now showing section is visible');
 });
 
 Then('now showing heading should be displayed', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isVisible = await landingPage.isNowShowingHeadingVisible();
+  const isVisible = await this.landingPage.isNowShowingHeadingVisible();
   expect(isVisible).toBeTruthy();
   logger.info('Now showing heading is displayed');
 });
 
 Then('movie cards should be visible', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const count = await landingPage.getMovieCardsCount();
+  const count = await this.landingPage.getMovieCardsCount();
   expect(count).toBeGreaterThan(0);
   logger.info(`Found ${count} movie cards`);
 });
@@ -104,8 +92,7 @@ Then('movie cards should be visible', async function (this: CustomWorld) {
 Then(
   'at least {int} movie cards should be available',
   async function (this: CustomWorld, minCount: number) {
-    const landingPage = new LandingPage(this.page);
-    const count = await landingPage.getMovieCardsCount();
+    const count = await this.landingPage.getMovieCardsCount();
     expect(count).toBeGreaterThanOrEqual(minCount);
     logger.info(`Movie cards count: ${count} (minimum required: ${minCount})`);
     this.setTestData('movieCardsCount', count);
@@ -114,11 +101,10 @@ Then(
 
 // Movie Card Details
 Then('each movie card should have:', async function (this: CustomWorld, dataTable: DataTable) {
-  const landingPage = new LandingPage(this.page);
   const details = dataTable.raw().map((row) => row[0]);
 
   // Verify key details are present
-  const movies = await landingPage.getMovieTitles();
+  const movies = await this.landingPage.getMovieTitles();
   expect(movies.length).toBeGreaterThan(0);
 
   logger.info(`Movie cards contain required details: ${details.join(', ')}`);
@@ -126,8 +112,7 @@ Then('each movie card should have:', async function (this: CustomWorld, dataTabl
 
 // Search Functionality
 Then('search box should be visible', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isVisible = await landingPage.isSearchBoxVisible();
+  const isVisible = await this.landingPage.isSearchBoxVisible();
   expect(isVisible).toBeTruthy();
   logger.info('Search box is visible');
 });
@@ -145,8 +130,7 @@ Then(
 );
 
 When('user enters {string} in search box', async function (this: CustomWorld, searchQuery: string) {
-  const landingPage = new LandingPage(this.page);
-  await landingPage.searchMovie(searchQuery);
+  await this.landingPage.searchMovie(searchQuery);
   //await this.page.waitForTimeout(7000); // Wait for search results to load
   logger.info(`User searched for: ${searchQuery}`);
 });
@@ -168,26 +152,23 @@ Then('search should filter movie results', async function (this: CustomWorld) {
 Then(
   'each movie should have a clickable {string} button',
   async function (this: CustomWorld, buttonText: string) {
-    const landingPage = new LandingPage(this.page);
-    const hasButtons = await landingPage.doAllMoviesHaveBookButton();
+    const hasButtons = await this.landingPage.doAllMoviesHaveBookButton();
     expect(hasButtons).toBeTruthy();
-    const count = await landingPage.getBookButtonsCount();
+    const count = await this.landingPage.getBookButtonsCount();
     logger.info(`Found ${count} ${buttonText} buttons`);
   }
 );
 
 Then('book button should be visible for all movies', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const buttonsCount = await landingPage.getBookButtonsCount();
-  const moviesCount = await landingPage.getMovieCardsCount();
+  const buttonsCount = await this.landingPage.getBookButtonsCount();
+  const moviesCount = await this.landingPage.getMovieCardsCount();
   expect(buttonsCount).toBeGreaterThanOrEqual(moviesCount - 1); // Allow small margin
   logger.info(`Book buttons: ${buttonsCount}, Movies: ${moviesCount}`);
 });
 
 // Movie Information
 Then('each movie should display a price', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const hasPrice = await landingPage.doAllMoviesHavePrice();
+  const hasPrice = await this.landingPage.doAllMoviesHavePrice();
   expect(hasPrice).toBeTruthy();
   logger.info('All movies have price information');
 });
@@ -204,8 +185,7 @@ Then('prices should be in valid currency format', async function (this: CustomWo
 });
 
 Then('each movie should display duration in minutes', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const hasDuration = await landingPage.doAllMoviesHaveDuration();
+  const hasDuration = await this.landingPage.doAllMoviesHaveDuration();
   expect(hasDuration).toBeTruthy();
   logger.info('All movies have duration information');
 });
@@ -221,15 +201,13 @@ Then('duration information should be visible for all movies', async function (th
 
 // Responsive Design
 When('user resizes viewport to mobile size', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  await landingPage.resizeToMobileViewport();
+  await this.landingPage.resizeToMobileViewport();
   logger.info('Viewport resized to mobile size: 375x667');
   await this.page.waitForTimeout(3000); // Wait for layout to adjust
 });
 
 Then('landing page should adapt to mobile view', async function (this: CustomWorld) {
-  const landingPage = new LandingPage(this.page);
-  const isResponsive = await landingPage.isPageResponsive();
+  const isResponsive = await this.landingPage.isPageResponsive();
   expect(isResponsive).toBeTruthy();
   logger.info('Landing page is responsive on mobile view');
 });

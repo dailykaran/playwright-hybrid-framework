@@ -2,7 +2,6 @@ import { Before } from '@cucumber/cucumber';
 import { CustomWorld } from '../fixtures/world';
 import { ApiClient } from '../api/clients/api.client';
 import { logger } from '../utils/logger/logger';
-import { configManager } from '../utils/config/config-manager';
 
 /**
  * API-specific hooks

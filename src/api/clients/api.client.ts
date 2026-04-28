@@ -5,7 +5,6 @@ import { configManager } from '@utils/config/config-manager';
 export class ApiClient {
   private baseUrl: string;
   private instance: AxiosInstance;
-  private authToken: string | null = null;
 
   constructor() {
     this.baseUrl = configManager.getApiBaseUrl();
@@ -34,7 +33,6 @@ export class ApiClient {
    * Set authentication token
    */
   setAuthToken(token: string): void {
-    this.authToken = token;
     this.instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     logger.info('Auth token set');
   }
@@ -43,7 +41,6 @@ export class ApiClient {
    * Clear authentication token
    */
   clearAuthToken(): void {
-    this.authToken = null;
     delete this.instance.defaults.headers.common['Authorization'];
     logger.info('Auth token cleared');
   }

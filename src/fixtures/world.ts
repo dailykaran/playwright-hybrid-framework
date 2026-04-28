@@ -2,14 +2,13 @@ import {
   World,
   IWorldOptions,
   setWorldConstructor,
-  Before,
-  After,
-  Status,
 } from '@cucumber/cucumber';
 import { Page, Browser, BrowserContext } from '@playwright/test';
 import { chromium, firefox, webkit } from 'playwright';
 import { logger } from '../utils/logger/logger';
 import { configManager } from '../utils/config/config-manager';
+import { LandingPage } from '../pages/modules/landing.page';
+import { HeaderComponent } from '../pages/components/header.component';
 
 export class CustomWorld extends World {
   public page!: Page;
@@ -18,6 +17,10 @@ export class CustomWorld extends World {
   public testData: any = {};
   public apiResponse: any = null;
   public apiError: any = null;
+
+  // Page Objects
+  public landingPage!: LandingPage;
+  public headerComponent!: HeaderComponent;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -52,6 +55,10 @@ export class CustomWorld extends World {
     this.context = await this.browser.newContext();
     this.page = await this.context.newPage();
 
+    // Initialize page objects after page is created
+    this.landingPage = new LandingPage(this.page);
+    this.headerComponent = new HeaderComponent(this.page);
+
     logger.info(`Browser initialized: ${browserName}`);
   }
 
@@ -68,6 +75,9 @@ export class CustomWorld extends World {
     if (this.browser) {
       await this.browser.close();
     }
+    // Cleanup page objects
+    this.landingPage = undefined as any;
+    this.headerComponent = undefined as any;
     logger.info('Browser closed');
   }
 

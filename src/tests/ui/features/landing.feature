@@ -3,7 +3,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
   I want to view and book movie tickets
   So that I can enjoy movies at the cinema
 
-  @smoke @ui @mandatory
+  @only-this  @ui
   Scenario: Verify landing page loads successfully with TicketsVenue branding
     When user navigates to home page
     Then landing page should be displayed
@@ -65,7 +65,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
     Then each movie should display duration in minutes
     And duration information should be visible for all movies
   
-  @only-this @ui 
+  @ui 
   Scenario: Verify responsive design on mobile viewport
     When user navigates to home page
     And user resizes viewport to mobile size

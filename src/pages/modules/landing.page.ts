@@ -8,23 +8,11 @@ export class LandingPage extends BasePage {
     'header >> text=TicketsVenue, div:has-text("TicketsVenue"), [class*="brand"] >> text=TicketsVenue, h1:has-text("TicketsVenue")';
 
   // Movie Showcase section
-  private movieShowcaseSection = 'section, [class*="showcase"], [class*="viewer"]';
   private movieShowcaseHeading = 'h4, h3, [class*="showcase-title"]';
   private movieShowcaseIframe = 'iframe';
 
   // Now Showing section
-  private nowShowingSection = '[class*="now"], [class*="showing"], section';
-  private nowShowingHeading = 'h3:has-text("Now Showing"), [class*="heading"]';
   private searchBox = '.MuiInputBase-input.MuiInputBase-inputSizeSmall';
-
-  // Movie cards
-  private movieCards = '[class*="card"], [class*="movie"], .movie-item, div[class*="film"]';
-  private movieImage = 'img[alt*="movie"], img[alt*="Movie"], img';
-  private movieTitle = 'h2';
-  private movieDescription = 'p';
-  private moviePrice = 'p:has-text("Price"), p:has-text("₹")';
-  private movieDuration = 'p:has-text("Duration")';
-  private bookButton = 'button:has-text("Book Now"), button:has-text("book")';
 
   constructor(page: Page) {
     super(page);
