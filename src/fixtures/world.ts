@@ -8,6 +8,7 @@ import { chromium, firefox, webkit } from 'playwright';
 import { logger } from '../utils/logger/logger';
 import { configManager } from '../utils/config/config-manager';
 import { LandingPage } from '../pages/modules/landing.page';
+import { MoviePage } from '../pages/modules/movie.page';
 import { HeaderComponent } from '../pages/components/header.component';
 
 export class CustomWorld extends World {
@@ -20,6 +21,7 @@ export class CustomWorld extends World {
 
   // Page Objects
   public landingPage!: LandingPage;
+  public moviePage!: MoviePage;
   public headerComponent!: HeaderComponent;
 
   constructor(options: IWorldOptions) {
@@ -57,6 +59,7 @@ export class CustomWorld extends World {
 
     // Initialize page objects after page is created
     this.landingPage = new LandingPage(this.page);
+    this.moviePage = new MoviePage(this.page);
     this.headerComponent = new HeaderComponent(this.page);
 
     logger.info(`Browser initialized: ${browserName}`);
@@ -77,6 +80,7 @@ export class CustomWorld extends World {
     }
     // Cleanup page objects
     this.landingPage = undefined as any;
+    this.moviePage = undefined as any;
     this.headerComponent = undefined as any;
     logger.info('Browser closed');
   }

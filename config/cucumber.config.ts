@@ -7,7 +7,7 @@ if (!process.env.TS_NODE_TRANSPILE_ONLY) {
 module.exports = {
   default: {
     require: ['src/fixtures/world.ts', 'src/setup.ts', 'src/tests/step-definitions/**/*.steps.ts', 'src/hooks/**/*.ts'],
-    requireModule: ['ts-node/register'],
+    requireModule: ['tsconfig-paths/register', 'ts-node/register'],
     format: [
       'progress-bar',
       'json:reports/cucumber/cucumber-report.json',
@@ -24,7 +24,7 @@ module.exports = {
   },
   ui: {
     require: ['src/fixtures/world.ts', 'src/setup.ts', 'src/tests/step-definitions/ui/**/*.steps.ts', 'src/hooks/**/*.ts'],
-    requireModule: ['ts-node/register'],
+    requireModule: ['tsconfig-paths/register', 'ts-node/register'],
     features: ['src/tests/ui/features'],
     format: [
       'progress-bar',
@@ -35,7 +35,7 @@ module.exports = {
   },
   api: {
     require: ['src/fixtures/world.ts', 'src/setup.ts', 'src/tests/step-definitions/api/**/*.steps.ts', 'src/hooks/**/*.ts'],
-    requireModule: ['ts-node/register'],
+    requireModule: ['tsconfig-paths/register', 'ts-node/register'],
     features: ['src/tests/api/features'],
     format: [
       'progress-bar',
@@ -46,7 +46,7 @@ module.exports = {
   },
   all: {
     require: ['src/fixtures/world.ts', 'src/setup.ts', 'src/tests/step-definitions/**/*.steps.ts', 'src/hooks/**/*.ts'],
-    requireModule: ['ts-node/register'],
+    requireModule: ['tsconfig-paths/register', 'ts-node/register'],
     format: [
       'progress-bar',
       'json:reports/cucumber/all-report.json',
