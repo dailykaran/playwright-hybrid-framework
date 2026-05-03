@@ -1,4 +1,34 @@
+import { faker } from '@faker-js/faker';
+
 export class CommonHelpers {
+  /**
+   * Interpolate faker templates in format {{faker.method()}}
+   * Example: "{{phone.number()}}" -> generates a random phone number
+   */
+  static interpolateFakerTemplate(template: string): string {
+    if (!template || typeof template !== 'string') {
+      return template;
+    }
+
+    // Match all {{...}} patterns
+    return template.replace(/\{\{(.*?)\}\}/g, (match, fakerExpression) => {
+      try {
+        // Safely evaluate faker expressions
+        // Supported patterns: faker.methodName(), faker.method1.method2(), etc.
+        const expression = `faker.${fakerExpression}`;
+        
+        // Use function constructor for safe evaluation
+        const fn = new Function('faker', `return ${expression}`);
+        const result = fn(faker);
+        
+        return String(result);
+      } catch (error) {
+        console.error(`Failed to interpolate faker template: ${match}`, error);
+        return match; // Return original if evaluation fails
+      }
+    });
+  }
+
   /**
    * Get current timestamp
    */

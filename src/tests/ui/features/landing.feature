@@ -3,7 +3,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
   I want to view and book movie tickets
   So that I can enjoy movies at the cinema
 
-  @only-this  @ui
+  @ui
   Scenario: Verify landing page loads successfully with TicketsVenue branding
     When user navigates to home page
     Then landing page should be displayed
@@ -27,7 +27,7 @@ Feature: TicketsVenue Landing Page - Movie Booking Application
     And at least 6 movie cards should be available
 
   
-  @ui
+  @only-this @ui
   Scenario: Verify movie card details are complete
     When user navigates to home page
     Then each movie card should have:

@@ -1,4 +1,4 @@
-/* Registers ts-node and tsconfig-paths in every Cucumber worker process (CommonJS) */
+
 // Register ts-node first for TypeScript support
 require('ts-node/register');
 

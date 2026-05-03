@@ -6,10 +6,12 @@ import {
 import { Page, Browser, BrowserContext } from '@playwright/test';
 import { chromium, firefox, webkit } from 'playwright';
 import { logger } from '../utils/logger/logger';
+import { DataFactory} from '../utils/data/data-factory';
 import { configManager } from '../utils/config/config-manager';
 import { LandingPage } from '../pages/modules/landing.page';
 import { MoviePage } from '../pages/modules/movie.page';
 import { HeaderComponent } from '../pages/components/header.component';
+import { SmartWait } from '@utils/wait/smart-wait';
 
 export class CustomWorld extends World {
   public page!: Page;
@@ -22,7 +24,9 @@ export class CustomWorld extends World {
   // Page Objects
   public landingPage!: LandingPage;
   public moviePage!: MoviePage;
+  public smartWait!: SmartWait;
   public headerComponent!: HeaderComponent;
+  public dataFactory!: DataFactory;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -58,10 +62,12 @@ export class CustomWorld extends World {
     this.page = await this.context.newPage();
 
     // Initialize page objects after page is created
+    this.dataFactory = new DataFactory();
     this.landingPage = new LandingPage(this.page);
+
     this.moviePage = new MoviePage(this.page);
     this.headerComponent = new HeaderComponent(this.page);
-
+    this.smartWait = new SmartWait(this.page);
     logger.info(`Browser initialized: ${browserName}`);
   }
 
@@ -79,9 +85,11 @@ export class CustomWorld extends World {
       await this.browser.close();
     }
     // Cleanup page objects
+    this.dataFactory = undefined as any;
     this.landingPage = undefined as any;
     this.moviePage = undefined as any;
     this.headerComponent = undefined as any;
+    this.smartWait = undefined as any;
     logger.info('Browser closed');
   }
 
@@ -126,6 +134,16 @@ export class CustomWorld extends World {
    */
   getApiError(): any {
     return this.apiError;
+  }
+
+  /**
+   * Get SmartWait instance with proper type safety
+   */
+  getSmartWait(): SmartWait {
+    if (!this.smartWait) {
+      throw new Error('SmartWait is not initialized. Ensure browser is initialized in @ui hook.');
+    }
+    return this.smartWait;
   }
 
   /**

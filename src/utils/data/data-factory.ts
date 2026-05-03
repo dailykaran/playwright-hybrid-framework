@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { logger } from '../logger/logger';
+import { mainModule } from 'process';
 
 export class DataFactory {
   /**
@@ -55,49 +56,60 @@ export class DataFactory {
   /**
    * Generate random email
    */
-  static generateEmail(): string {
+  async generateEmail(): Promise<string> {
     return faker.internet.email();
   }
 
   /**
    * Generate random password
    */
-  static generatePassword(length = 12): string {
+  async generatePassword(length = 12): Promise<string> {
     return faker.internet.password({ length, memorable: false });
   }
 
   /**
    * Generate random phone number
    */
-  static generatePhoneNumber(): string {
+  async generatePhoneNumber(): Promise<string> {
     return faker.phone.number();
   }
 
   /**
    * Generate random address
    */
-  static generateAddress(): string {
+  async generateAddress(): Promise<string> {
     return faker.location.streetAddress();
   }
 
   /**
    * Generate random name
    */
-  static generateName(): string {
+  async generateName(): Promise<string> {
     return faker.person.fullName();
   }
 
   /**
    * Generate random number
    */
-  static generateNumber(min: number, max: number): number {
+  async generateNumber(min: number, max: number): Promise<number> {
     return faker.number.int({ min, max });
   }
 
   /**
    * Generate random string
    */
-  static generateString(length: number): string {
+  async generateString(length: number): Promise<string> {
     return faker.string.alphanumeric(length);
+  }
+
+  async generateFirstName(): Promise<string> {
+    return faker.person.firstName();
+  }
+
+  async generateLastName(): Promise<string> {
+    return faker.person.lastName();
+  }
+  async generateAge(): Promise<number> {
+    return faker.number.int({ min: 18, max: 80 });
   }
 }

@@ -58,7 +58,7 @@ export class SmartWait {
   async waitForUrl(urlPattern: string | RegExp, timeout = this.defaultTimeout): Promise<void> {
     logger.info(`Waiting for URL to match: ${urlPattern}`);
     try {
-      await this.page.waitForURL(urlPattern, { timeout });
+      await this.page.waitForURL(urlPattern, { timeout: timeout });
     } catch (error) {
       logger.error(`URL did not match "${urlPattern}" within ${timeout}ms`);
       throw error;
